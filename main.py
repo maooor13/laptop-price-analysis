@@ -1,7 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 
-def plot_laptop_prices(laptop_data):
+def plot_laptop_prices(laptop_data: pd.DataFrame):
     fig, ax = plt.subplots(figsize=(10, 5))
     ax.hist(laptop_data["Price (Euro)"], bins=40, edgecolor='black')
     ax.set_title('Distribution of Laptop Prices')
