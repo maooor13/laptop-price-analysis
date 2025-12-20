@@ -10,6 +10,16 @@ def plot_laptop_prices(laptop_data):
     return fig
 
 
+def plot_avg_laptop_prices_by_company(laptop_data: pd.DataFrame):
+    fig, ax = plt.subplots(figsize=(10,5))
+    companies_avg = laptop_data.groupby("Company")["Price (Euro)"].mean().sort_values(ascending=True)
+    companies_avg.plot(ax=ax, kind='barh',edgecolor='black')
+    ax.set_title('Distribution of Average Laptop Prices (By Company)')
+    ax.set_xlabel('Average Price (Euro)')
+    ax.set_ylabel('Company')
+    return fig
+
+
 def load_laptop_data(datafile='laptop_price - dataset.csv') -> pd.DataFrame:
     try:
         laptop_data = pd.read_csv(datafile)
@@ -27,6 +37,7 @@ def main():
     
     print(laptop_data)
     plot_laptop_prices(laptop_data)
+    plot_avg_laptop_prices_by_company(laptop_data)    
     plt.show()
 
 if __name__ == "__main__":
