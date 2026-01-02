@@ -20,6 +20,25 @@ def plot_avg_laptop_prices_by_company(laptop_data: pd.DataFrame):
     return fig
 
 
+def list_all_unique_opsys(laptop_data: pd.DataFrame):
+    unfiltered_opsys = pd.Series(laptop_data["OpSys"].unique())
+    return unfiltered_opsys
+
+def list_all_opsys(laptop_data: pd.DataFrame):
+    unique_opsys = list_all_unique_opsys(laptop_data)
+    return generalize_opsys(unique_opsys)
+
+def generalize_opsys(specific_opsys: pd.Series):
+    return specific_opsys.apply(simply_os).unique()
+
+def simply_os(name: str):
+    name = name.lower()
+    if 'windows' in name:
+        return "Windows"
+    if "mac" in name:
+        return "macOS"
+    return name.capitalize()
+
 def load_laptop_data(datafile='laptop_price - dataset.csv') -> pd.DataFrame:
     try:
         laptop_data = pd.read_csv(datafile)
@@ -35,10 +54,11 @@ def load_laptop_data(datafile='laptop_price - dataset.csv') -> pd.DataFrame:
 def main():
     laptop_data = load_laptop_data()
     
-    print(laptop_data)
-    plot_laptop_prices(laptop_data)
-    plot_avg_laptop_prices_by_company(laptop_data)    
-    plt.show()
+    # print(laptop_data)
+    # plot_laptop_prices(laptop_data)
+    # plot_avg_laptop_prices_by_company(laptop_data)    
+    # plt.show()
+    print(list_all_opsys(laptop_data))
 
 if __name__ == "__main__":
     main()
