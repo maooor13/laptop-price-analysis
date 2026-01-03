@@ -36,10 +36,10 @@ def list_all_opsys(laptop_data: pd.DataFrame):
 
 
 def generalize_opsys(specific_opsys: pd.Series):
-    return specific_opsys.apply(simply_os).unique()
+    return specific_opsys.apply(simplify_os).unique()
 
 
-def simply_os(name: str):
+def simplify_os(name: str):
     name = name.lower()
     if "windows" in name:
         return "Windows"
