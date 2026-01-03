@@ -26,11 +26,11 @@ def plot_avg_laptop_prices_by_company(laptop_data: pd.DataFrame):
 
 
 def plot_os_distribution_price(laptop_data: pd.DataFrame, os_name: str):
-    '''
+    """
     Plot for each of the operating system types the distribution of the prices, so that
     the number of plots equals to the number of unique operating systems.
-    '''
-    fig, ax = plt.subplots(figsize=(10,5))
+    """
+    fig, ax = plt.subplots(figsize=(10, 5))
     os_data = laptop_data[laptop_data["OpSys"] == os_name]
     ax.hist(os_data["Price (Euro)"], edgecolor="black")
     ax.set_title(f"Distribution of Price for Operation System {os_name}")
@@ -86,7 +86,7 @@ def main():
     # print(laptop_data)
     # plot_laptop_prices(laptop_data)
     # plot_avg_laptop_prices_by_company(laptop_data)
-    # plt.show()  
+    # plt.show()
     for os_name in list_all_unique_opsys(new_laptop_data):
         print(plot_os_distribution_price(new_laptop_data, os_name))
     plt.show()
