@@ -1,0 +1,7 @@
+-r requirements.txt
+
+pylint
+black
+mypy
+flake8
+pytest
