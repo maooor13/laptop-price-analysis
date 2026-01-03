@@ -39,6 +39,19 @@ def plot_os_distribution_price(laptop_data: pd.DataFrame, os_name: str):
     return fig
 
 
+def plot_ram_and_price(laptop_data: pd.DataFrame):
+    copy_data = laptop_data.copy()
+    data_cleaned = remove_outliers(copy_data, "RAM (GB)")
+    data_cleaned = remove_outliers(data_cleaned, "Price (Euro)")
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.plot(data_cleaned["RAM (GB)"], data_cleaned["Price (Euro)"], "x")
+    return fig
+
+
+def correlate_two_numeric_columns(data, column1, column2):
+    return data[column1].corr(data[column2])
+
+
 def list_all_unique_opsys(laptop_data: pd.DataFrame):
     unfiltered_opsys = pd.Series(laptop_data["OpSys"].unique())
     return unfiltered_opsys
@@ -68,6 +81,18 @@ def generalize_column_opsys(laptop_data: pd.DataFrame):
     return data_copy
 
 
+def remove_outliers(df, column):
+    """
+    Removes outliers from a specific column using the IQR method.
+    """
+    Q1 = df[column].quantile(0.25)
+    Q3 = df[column].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    return df[(df[column] >= lower_bound) & (df[column] <= upper_bound)]
+
+
 def load_laptop_data(datafile="laptop_price - dataset.csv") -> pd.DataFrame:
     try:
         laptop_data = pd.read_csv(datafile)
@@ -87,9 +112,11 @@ def main():
     # plot_laptop_prices(laptop_data)
     # plot_avg_laptop_prices_by_company(laptop_data)
     # plt.show()
-    for os_name in list_all_unique_opsys(new_laptop_data):
-        print(plot_os_distribution_price(new_laptop_data, os_name))
+    # for os_name in list_all_unique_opsys(new_laptop_data):
+    # print(plot_os_distribution_price(new_laptop_data, os_name))
+    plot_ram_and_price(new_laptop_data)
     plt.show()
+    print(correlate_two_numeric_columns(new_laptop_data, "RAM (GB)", "Price (Euro)"))
 
 
 if __name__ == "__main__":
