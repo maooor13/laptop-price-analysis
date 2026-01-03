@@ -25,6 +25,15 @@ def plot_avg_laptop_prices_by_company(laptop_data: pd.DataFrame):
     return fig
 
 
+'''
+Plot for each of the operating system types the distribution of the prices, so that
+the number of plots equals to the number of unique operating systems.
+'''
+def plot_os_distribution():
+    fig, ax = plt.subplot()
+    ax.hist(laptop)
+
+
 def list_all_unique_opsys(laptop_data: pd.DataFrame):
     unfiltered_opsys = pd.Series(laptop_data["OpSys"].unique())
     return unfiltered_opsys
@@ -48,6 +57,12 @@ def simplify_os(name: str):
     return name.capitalize()
 
 
+def generalize_column_opsys(laptop_data: pd.DataFrame):
+    df = laptop_data.copy()
+    df["OpSys"] = df["OpSys"].apply(simplify_os)
+    return df
+
+
 def load_laptop_data(datafile="laptop_price - dataset.csv") -> pd.DataFrame:
     try:
         laptop_data = pd.read_csv(datafile)
@@ -67,7 +82,10 @@ def main():
     # plot_laptop_prices(laptop_data)
     # plot_avg_laptop_prices_by_company(laptop_data)
     # plt.show()
-    print(list_all_opsys(laptop_data))
+    opsys = list_all_opsys(laptop_data)
+    print(opsys[0])
+    fig, ax = plt.subplot()
+    ax.hist(laptop_data["OpSys"])
 
 
 if __name__ == "__main__":
