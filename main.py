@@ -153,16 +153,18 @@ def load_laptop_data(datafile="laptop_price - dataset.csv") -> pd.DataFrame:
 
 def main():
     laptop_data = load_laptop_data()
+    plot_laptop_prices(laptop_data)
+    plot_avg_laptop_prices_by_company(laptop_data)
     new_laptop_data = generalize_column_opsys(laptop_data)
-    # print(laptop_data)
-    # plot_laptop_prices(laptop_data)
-    # plot_avg_laptop_prices_by_company(laptop_data)
-    # plt.show()
-    # for os_name in list_all_unique_opsys(new_laptop_data):
-    # print(plot_os_distribution_price(new_laptop_data, os_name))
-    # plot_ram_and_price(new_laptop_data)
-    # plt.show()
+    print(f"Operating Systems: {new_laptop_data["OpSys"]}")
+    for os_name in list_all_unique_opsys(new_laptop_data):
+        plot_os_distribution_price(new_laptop_data, os_name)
+    print(
+        f"Correlation between RAM and price without Outliers:{correlate_two_numeric_columns(new_laptop_data, "RAM (GB)", "Price (Euro)")}"
+    )
+    plot_ram_and_price(new_laptop_data)
     print(create_storage_column(new_laptop_data))
+    plt.show()
 
 
 if __name__ == "__main__":
