@@ -48,8 +48,21 @@ def plot_ram_and_price(laptop_data: pd.DataFrame):
     copy_data = laptop_data.copy()
     data_cleaned = remove_outliers(copy_data, "RAM (GB)")
     data_cleaned = remove_outliers(data_cleaned, "Price (Euro)")
+    avg_price_by_ram = (
+        data_cleaned.groupby("RAM (GB)")["Price (Euro)"].mean().reset_index()
+    )
+    avg_price_by_ram = avg_price_by_ram.sort_values("RAM (GB)")
     fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(data_cleaned["RAM (GB)"], data_cleaned["Price (Euro)"], "x")
+    ax.plot(
+        avg_price_by_ram["RAM (GB)"],
+        avg_price_by_ram["Price (Euro)"],
+        marker="o",
+        linestyle="-",
+    )
+    ax.set_title("Average Price by RAM Capacity")
+    ax.set_xlabel("RAM (GB)")
+    ax.set_ylabel("Average Price (Euro)")
+    ax.grid(True, linestyle="--", alpha=0.7)
     return fig
 
 
