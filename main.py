@@ -90,7 +90,7 @@ def generalize_column_opsys(laptop_data: pd.DataFrame):
 
 def clean_memory_string(memory_column_name="Memory"):
     # TODO change Memory to a const
-    cleaned = re.sub(r'[0-9.]+|GB|TB|MB', '', memory_column_name, flags=re.IGNORECASE)
+    cleaned = re.sub(r"[0-9.]+|GB|TB|MB", "", memory_column_name, flags=re.IGNORECASE)
     # Clean up whitespace (strip and collapse multiple spaces)
     return " ".join(cleaned.split())
 
@@ -98,7 +98,7 @@ def clean_memory_string(memory_column_name="Memory"):
 def create_storage_column(laptop_data: pd.DataFrame):
     # TODO change Memory and Storage Type to a const
     """
-    Takes a DataFrame, extracts the storage technology from 'Memory' 
+    Takes a DataFrame, extracts the storage technology from 'Memory'
     by removing capacities (GB/TB) and numbers with regex, and adds a 'Storage Type' column.
     Regex breakdown:
     [0-9.]+ -> Matches digits and decimals (e.g., 128, 1.0)
@@ -107,7 +107,9 @@ def create_storage_column(laptop_data: pd.DataFrame):
     """
     new_laptop_data = laptop_data.copy()
     # Apply the cleaning logic to the Memory column
-    new_laptop_data['Storage Type'] = new_laptop_data['Memory'].apply(clean_memory_string)
+    new_laptop_data["Storage Type"] = new_laptop_data["Memory"].apply(
+        clean_memory_string
+    )
 
     return new_laptop_data
 
@@ -148,6 +150,7 @@ def main():
     # plot_ram_and_price(new_laptop_data)
     # plt.show()
     print(create_storage_column(new_laptop_data))
+
 
 if __name__ == "__main__":
     main()
